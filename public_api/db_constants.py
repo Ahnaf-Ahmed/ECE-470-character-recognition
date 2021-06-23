@@ -1,0 +1,2 @@
+FAUNA_DB_SECRET = "fnAEMbq8G0ACDXjHUotMxHdoFb6zzVKS38TX_pgx"
+FAUNA_DB_COLLECTION_NAME = "model-identifications"
