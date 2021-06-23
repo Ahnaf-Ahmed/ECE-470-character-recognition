@@ -59,4 +59,4 @@ instance/
 
 # Misc
 .DS_Store
-/ocr_frontendnpm-debug.log*
+/ocr_frontend/npm-debug.log*
