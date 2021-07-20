@@ -9,44 +9,60 @@ random.seed(1337)
 #from plotnine import *
 #import sklearn as sk
 
-import pandas as pd
-from keras.models import Sequential
-from keras.layers import Dense
+
+import keras
+import base64
+import cv2
+import os
+import json
 
 
 
-from keras.datasets import mnist
-(train_X, train_y), (test_X, test_y) = mnist.load_data()
+def predictCharacter(b64string):
+    image_string = b64string
+    img_data = base64.b64decode(image_string)
+    nparr = np.fromstring(img_data, np.uint8)
+    img_np = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
 
-train_X = train_X.reshape((-1, 784))
-test_X = test_X.reshape((-1, 784))
+    im = img_np.flatten()
+    im =np.array([im])
 
-print("training input shape: ", train_X.shape)
+    projectDir = os.path.dirname(os.path.dirname(__file__))
 
+    model = keras.models.load_model(projectDir+"/470model")
 
-print("training output shape: ", train_y)
+    yPred = model.predict(im)
 
-print(train_y.shape)
+    #sorts from indices least to most likely
+    predictions = np.argsort(yPred[0])
 
+    results = [None,None,None,None]
+    accuracy = [None,None,None,None]
 
-s = pd.get_dummies(train_y)
-train_y = s.to_numpy()
-
-
-
-
-model = Sequential()
-model.add(Dense(20, input_shape=(784,), activation='sigmoid'))
-model.add(Dense(15, activation='relu'))
-model.add(Dense(10, activation='softmax'))
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-model.fit(train_X, train_y, epochs=5, batch_size=32)
-
-
+    #values under 10 are numbers, over 10 are letters and need to be converted
+    for i in range(1,5):
+        predIndex = predictions[-i]
+        accuracy[i-1] = yPred[0][predIndex]*100
+        results[i-1] = str(predIndex) if predIndex<10 else chr(predIndex+55)
 
 
-s = pd.get_dummies(test_y)
-test_y = s.to_numpy()
+    data = {
+        "character": results[0],
+        "accuracy": accuracy[0],
+        "alt_characters": [
+            {
+                "character": results[1],
+                "accuracy": accuracy[1]
+            },
+            {
+               "character": results[2],
+                "accuracy": accuracy[2]
+            },
+            {
+               "character": results[3],
+                "accuracy": accuracy[3]
+            }
+        ]
+    }
 
-_, accuracy = model.evaluate(test_X, test_y)
-print('Accuracy: %.2f' % (accuracy*100))
+    return json.dumps(data)
