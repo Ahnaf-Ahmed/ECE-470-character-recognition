@@ -1,22 +1,9 @@
 import numpy as np
-import random
-
-np.random.seed(1337)
-random.seed(1337)
-
-
-#from matplotlib import pyplot as plt
-#from plotnine import *
-#import sklearn as sk
-
-
 import keras
 import base64
 import cv2
 import os
 import json
-
-
 
 def predictCharacter(b64string):
     image_string = b64string
@@ -25,7 +12,7 @@ def predictCharacter(b64string):
     img_np = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
 
     im = img_np.flatten()
-    im =np.array([im])
+    im = np.array([im])
 
     projectDir = os.path.dirname(os.path.dirname(__file__))
 
