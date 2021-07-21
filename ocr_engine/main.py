@@ -1,14 +1,15 @@
-import numpy as np
-import keras
 import base64
-import cv2
 import os
 import json
+import numpy as np
+import keras
+import cv2
 
 def predictCharacter(b64string):
     image_string = b64string
     img_data = base64.b64decode(image_string)
     nparr = np.fromstring(img_data, np.uint8)
+    # TODO: Resize array with cv2.resize here
     img_np = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
 
     im = img_np.flatten()

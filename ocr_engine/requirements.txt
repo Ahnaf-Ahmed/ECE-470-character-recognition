@@ -1,0 +1,7 @@
+faunadb
+Flask
+Flask-Cors
+Keras
+numpy
+opencv-python
+tensorflow

@@ -1,0 +1,68 @@
+.statistics {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+
+    &-header {
+        color: #FFFFFF;
+        font-size: 28px;
+        text-align: center;
+        margin: 32px 0 16px;
+    }
+
+    &-graph {
+        display: flex;
+        margin-top: 12px;
+        height: 500px;
+        flex-direction: column;
+        align-items: center;
+
+        svg {
+            width: 30%;
+        }
+
+        path {
+            filter: opacity(1);
+            animation: progress 1s ease-out forwards;
+        }
+
+        text {
+            filter: opacity(0);
+            animation: fadeIn 1s 1s ease-out forwards;
+        }
+    }
+
+    &-label {
+        color: #FFFFFF;
+        text-align: center;
+        margin: 8px 0 32px;
+    }
+
+    .button {
+        &.identify-button {
+            width: 168px;
+            margin-bottom: 16px;
+        }
+
+        &.home-button {
+            width: 168px;
+            margin-bottom: 16px;
+        }
+    }
+}
+
+@keyframes progress {
+    0% {
+        filter: opacity(0);
+        stroke-dasharray: 0 100;
+    }
+}
+
+@keyframes fadeIn {
+    100% {
+        filter: opacity(1);
+    }
+}
