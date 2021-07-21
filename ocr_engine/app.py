@@ -1,6 +1,8 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
-from db import get_stats, update_identification_doc
+from db import get_stats, update_identification_doc, create_identification_doc
+from main import predictCharacter
+
 
 # Route paths
 API_BASE_ROUTE = "/ocr-api"
@@ -30,8 +32,16 @@ def healthcheck():
 @app.route(IDENTIFY_CHARACTER_ROUTE, methods=[POST_REQUEST])
 @cross_origin()
 def identify_character():
-    # TODO: Call AI identifier from `ocr_engine` here and return results
-    return {
+    # TODO: Uncomment this and remove `data` below
+    # request_data = request.get_json(force=True)
+    # image_string = request_data["image"]
+    # image_string += "=" * (4 - (len(image_string) % 4))
+
+    # print(image_string)
+    # response = predictCharacter(image_string)
+
+    # return response
+    data = {
         "accuracy": 87,
         "alt_characters": [
             {"character": "t", "accuracy": 42},
@@ -39,8 +49,12 @@ def identify_character():
             {"character": "y", "accuracy": 35},
         ],
         "character": "x",
-        "ref": "302228678981452301"
+        "ref": "304750175650316865"
     }
+
+    create_identification_doc(data)
+
+    return data
 
 
 @app.route(RETRIEVE_STATS_ROUTE, methods=[GET_REQUEST])
@@ -57,12 +71,12 @@ def verify_result():
     request_data = request.get_json(force=True)
     db_success = update_identification_doc(
         request_data["ref"],
-        request_data["isAccurate"]
+        request_data["is_accurate"]
     )
 
     return {
         "data": {
-            "dbSuccess": db_success
+            "db_success": db_success
         },
     }
 

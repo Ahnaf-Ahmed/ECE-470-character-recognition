@@ -48,6 +48,10 @@ instance/
 
 # pyenv
 .python-version
+/env
+/venv
+/.venv
+/bin
 
 ############# JavaScript
 

@@ -1,0 +1,50 @@
+.button {
+    display: flex;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    color: #FFFFFF;
+    padding: 16px 32px;
+    border-radius: 100px;
+    background-color: rgb(164, 27, 227);
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+
+    &.outlined {
+        background-color: transparent;
+        border: solid 2px rgb(164, 27, 227);
+
+        &:hover {
+            transform: translateY(-2px);
+            background-color: transparent;
+        }
+
+        &:active {
+            color: rgb(114, 19, 158);
+            background-color: transparent;
+            border: solid 2px rgb(114, 19, 158);
+            transform: translateY(2px);
+
+            span {
+                color: rgb(114, 19, 158);
+            }
+        }
+    }
+
+    span {
+        color: white;
+        margin-right: 12px;
+    }
+
+    &:hover {
+        background-color: rgb(164, 27, 227);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        background-color: rgb(147, 24, 204);
+        transform: translateY(2px);
+    }
+}

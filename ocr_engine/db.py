@@ -9,6 +9,8 @@ client = FaunaClient(secret=FAUNA_DB_SECRET)
 def create_identification_doc(doc):
     '''Creates a new document in the database.'''
 
+    doc["is_accurate"] = 'UNKNOWN'
+
     try:
         result = client.query(
             q.create(
@@ -36,7 +38,7 @@ def update_identification_doc(ref, isAccurate):
                 q.ref(q.collection(FAUNA_DB_COLLECTION_NAME), ref),
                 {
                     "data": {
-                        "isAccurate": isAccurate
+                        "is_accurate": isAccurate
                     }
                 }
             )
