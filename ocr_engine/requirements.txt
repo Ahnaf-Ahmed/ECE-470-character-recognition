@@ -5,3 +5,5 @@ Keras
 numpy
 opencv-python
 tensorflow
+pandas
+sklearn
