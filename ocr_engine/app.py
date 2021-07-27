@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from db import get_stats, update_identification_doc, create_identification_doc
@@ -33,28 +34,18 @@ def healthcheck():
 @cross_origin()
 def identify_character():
     # TODO: Uncomment this and remove `data` below
-    # request_data = request.get_json(force=True)
-    # image_string = request_data["image"]
-    # image_string += "=" * (4 - (len(image_string) % 4))
+    request_data = request.get_json(force=True)
+    image_string = request_data["image"]
+    image_string += "=" * (4 - (len(image_string) % 4))
 
-    # print(image_string)
-    # response = predictCharacter(image_string)
+    data = predictCharacter(image_string)
 
-    # return response
-    data = {
-        "accuracy": 87,
-        "alt_characters": [
-            {"character": "t", "accuracy": 42},
-            {"character": "z", "accuracy": 37},
-            {"character": "y", "accuracy": 35},
-        ],
-        "character": "x",
-        "ref": "304750175650316865"
-    }
+    json_data = json.loads(data)
+    ref = create_identification_doc(json_data)
+    print('REF', ref)
+    json_data["ref"] = ref
 
-    create_identification_doc(data)
-
-    return data
+    return json_data
 
 
 @app.route(RETRIEVE_STATS_ROUTE, methods=[GET_REQUEST])

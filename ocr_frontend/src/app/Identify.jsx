@@ -126,14 +126,14 @@ const Identify = () => {
                     <p>{responseData?.character}</p>
                 </div>
                 <div className="identify-info">
-                    with <strong>{responseData?.accuracy}%</strong> accuracy.
+                    with <strong>{Math.round(responseData?.accuracy)}%</strong> accuracy.
                 </div>
                 <div className="identify-alt-characters">
                     it may have also been:
                     {
                         responseData?.alt_characters.map(alt => (
                             <p key={alt.character}>
-                                <strong>{alt.character}</strong> ({alt.accuracy}% chance)
+                                <strong>{alt.character}</strong> ({Math.round(alt.accuracy)}% chance)
                             </p>
                         ))
                     }
