@@ -6,13 +6,15 @@ import keras
 import cv2
 
 def predictCharacter(b64string):
-    image_string = b64string
+    image_string = b64string.split(',')[1]
     img_data = base64.b64decode(image_string)
-    nparr = np.fromstring(img_data, np.uint8)
-    # TODO: Resize array with cv2.resize here
-    img_np = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
 
-    im = img_np.flatten()
+    nparr = np.fromstring(img_data, np.uint8)
+    img_np = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
+    dim = (28, 28)
+    resized = cv2.resize(img_np, dim, interpolation = cv2.INTER_AREA)
+
+    im = resized.flatten()
     im = np.array([im])
 
     projectDir = os.path.dirname(os.path.dirname(__file__))

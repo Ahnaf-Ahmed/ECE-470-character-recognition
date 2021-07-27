@@ -24,8 +24,10 @@ def create_identification_doc(doc):
         print("CREATE_IDENTIFICATION_DOC LOG:")
         print(result)
 
-        # TODO: Test this and return the doc ref
-        return True
+        # Get database ID
+        ref = str(result["ref"]).split('id=')[1].split(',')[0]
+
+        return ref
     except:
         return False
 
