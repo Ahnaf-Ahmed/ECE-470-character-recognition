@@ -15,7 +15,7 @@ from tensorflow.keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
 import cv2
 import os
-
+from matplotlib import pyplot as plt
 
 
 parentDir = os.path.dirname(__file__)
@@ -69,24 +69,17 @@ model = Sequential(name='470model')
 model.add(Dense(128, input_shape=(784,), activation='sigmoid'))
 model.add(Dense(36, activation='softmax'))
 
-model.compile(loss='mean_squared_error', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', metrics=['accuracy'])
 
 
-model.fit(X_train, to_categorical(y_train), epochs=5, batch_size=30)
+history = model.fit(X_train, to_categorical(y_train), validation_data=(X_test, to_categorical(y_test)), epochs=5, batch_size=128, verbose=2)
 
-
-loss, accuracy = model.evaluate(X_test, to_categorical(y_test))
-print('Accuracy: %.2f' % (accuracy*100))
-
-
-
-
-
-
-parentDir
 model.save(parentDir+"/470model")
 
-
-
-
-
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.show()
